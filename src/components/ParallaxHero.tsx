@@ -8,9 +8,9 @@ interface ParallaxHeroProps {
 }
 
 export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
-  initialFgScale = 1.0,
-  initialFgX = 0,
-  initialFgY = 0,
+  initialFgScale = 1.03,
+  initialFgX = 54,
+  initialFgY = 30,
 }) => {
   // Configurable positioning state for visual tuning
   const [fgScale, setFgScale] = useState(initialFgScale);
