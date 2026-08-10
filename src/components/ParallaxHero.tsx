@@ -64,11 +64,15 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
       currentScroll.current = lerp(currentScroll.current, targetScroll.current, 0.08);
       const scroll = currentScroll.current;
 
+      // Mobile check: reduce motion substantially on mobile screens (< 768px)
+      const isMobile = window.innerWidth < 768;
+      const motionFactor = isMobile ? 0.35 : 1.0;
+
       // Parallax calculations (scrolling down moves mountain UP)
-      const bgY = scroll * 0.08;
-      const headlineY = scroll * 0.18;
-      const fgY = scroll * -0.38;
-      const fgX = scroll * -0.03;
+      const bgY = scroll * 0.08 * motionFactor;
+      const headlineY = scroll * 0.18 * motionFactor;
+      const fgY = scroll * -0.38 * motionFactor;
+      const fgX = scroll * -0.03 * motionFactor;
 
       // Apply transforms
       if (bgRef.current) {
@@ -78,8 +82,8 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
         headlineRef.current.style.transform = `translate3d(0px, ${headlineY.toFixed(2)}px, 0px)`;
       }
       if (fgRef.current) {
-        const totalX = fgX + fgOffsetX;
-        const totalY = fgY + fgOffsetY;
+        const totalX = fgX + (isMobile ? fgOffsetX * 0.4 : fgOffsetX);
+        const totalY = fgY + (isMobile ? fgOffsetY * 0.4 : fgOffsetY);
         fgRef.current.style.transform = `translate3d(${totalX.toFixed(2)}px, ${totalY.toFixed(2)}px, 0px) scale(${fgScale})`;
       }
 
@@ -108,22 +112,22 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
           <img
             src="./hero-bg.png"
             alt="Sky, distant mountains and valley landscape background"
-            className="w-full h-full object-cover object-center scale-[1.05]"
+            className="w-full h-full object-cover object-[75%_center] md:object-center scale-[1.05]"
           />
         </div>
 
         {/* LAYER 2: Navigation & Hero Typography (z-index 20) */}
         <div
           ref={headlineRef}
-          className="absolute inset-0 w-full h-full z-20 will-change-transform flex flex-col justify-between p-6 md:p-12 lg:p-16 pointer-events-none"
+          className="absolute inset-0 w-full h-full z-20 will-change-transform flex flex-col justify-between p-4 sm:p-8 md:p-12 lg:p-16 pointer-events-none"
         >
           {/* Header Navigation Bar */}
           <header className="w-full flex items-center justify-between pointer-events-auto">
-            <div className="flex items-center space-x-4">
-              <span className="font-black tracking-widest text-2xl md:text-3xl text-white">AITC</span>
-              <span className="h-5 w-[2px] bg-white/30"></span>
-              <span className="text-xs md:text-sm font-mono uppercase tracking-widest text-white/80 hidden sm:inline font-semibold">
-                AI & Technology Innovation Club
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <span className="font-black tracking-widest text-xl sm:text-2xl md:text-3xl text-white">AITC</span>
+              <span className="h-4 sm:h-5 w-[1px] sm:w-[2px] bg-white/30"></span>
+              <span className="text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-widest text-white/80 font-semibold">
+                AI & TECH
               </span>
             </div>
 
@@ -142,47 +146,47 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
           {/* Center Main Headline Content */}
           <main className="my-auto w-full max-w-7xl mx-auto pt-2 md:pt-4">
             {/* Small Eyebrow */}
-            <div className="mb-4">
-              <span className="inline-block text-sm md:text-base font-mono tracking-[0.3em] font-bold text-[#c5a059] uppercase">
+            <div className="mb-2 sm:mb-4">
+              <span className="inline-block text-xs sm:text-sm md:text-base font-mono tracking-[0.25em] sm:tracking-[0.3em] font-bold text-[#c5a059] uppercase">
                 AITC
               </span>
             </div>
 
-            {/* Oversized Bold 2-Line Headline */}
-            <h1 className="font-display font-black tracking-tight leading-[0.88] text-white uppercase max-w-6xl 2xl:max-w-7xl drop-shadow-lg flex flex-col items-start">
-              <span className="block whitespace-nowrap text-4xl sm:text-[3.2rem] md:text-[4.2rem] lg:text-[5.4rem] xl:text-[6.3rem] 2xl:text-[7rem]">
+            {/* Oversized Bold Headline (Responsive wrapping for mobile vs desktop) */}
+            <h1 className="font-display font-black tracking-tight text-white uppercase max-w-full md:max-w-6xl 2xl:max-w-7xl drop-shadow-lg flex flex-col items-start">
+              <span className="block text-3xl sm:text-4xl md:text-[4.2rem] lg:text-[5.4rem] xl:text-[6.3rem] 2xl:text-[7rem] leading-none md:leading-[0.88] whitespace-normal md:whitespace-nowrap break-words max-w-full">
                 WHAT IF YOU COULD
               </span>
-              <span className="block whitespace-nowrap text-white/95 text-5xl sm:text-[3.6rem] md:text-[4.8rem] lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[8rem]">
+              <span className="block text-white/95 text-3.5xl sm:text-5xl md:text-[4.8rem] lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[8rem] leading-none md:leading-[0.88] whitespace-normal md:whitespace-nowrap break-words mt-1 md:mt-0 max-w-full">
                 BUILD ANYTHING?
               </span>
             </h1>
 
             {/* Supporting Subtitle */}
-            <p className="mt-6 text-2xl sm:text-3xl md:text-4xl font-serif italic text-white/95 font-normal tracking-wide drop-shadow">
+            <p className="mt-3 sm:mt-6 text-lg sm:text-2xl md:text-3xl lg:text-4xl font-serif italic text-white/95 font-normal tracking-wide drop-shadow">
               You probably can.
             </p>
 
             {/* CTA Buttons */}
-            <div className="mt-12 flex flex-wrap items-center gap-8 pointer-events-auto">
+            <div className="mt-6 sm:mt-12 flex flex-wrap items-center gap-4 sm:gap-8 pointer-events-auto">
               <a
                 href="#join"
-                className="px-10 py-4 border-2 border-[#c5a059] text-[#c5a059] text-sm font-mono font-bold tracking-widest uppercase hover:bg-[#c5a059] hover:text-[#0b0d10] transition-all duration-300 rounded-sm shadow-lg"
+                className="px-6 py-3 sm:px-10 sm:py-4 border-2 border-[#c5a059] text-[#c5a059] text-xs sm:text-sm font-mono font-bold tracking-widest uppercase hover:bg-[#c5a059] hover:text-[#0b0d10] transition-all duration-300 rounded-sm shadow-lg"
               >
                 JOIN AITC →
               </a>
               <a
                 href="#explore"
-                className="text-sm font-mono font-bold tracking-widest uppercase text-white/80 hover:text-white transition-colors flex items-center space-x-3"
+                className="text-xs sm:text-sm font-mono font-bold tracking-widest uppercase text-white/80 hover:text-white transition-colors flex items-center space-x-2 sm:space-x-3"
               >
                 <span>EXPLORE</span>
-                <span className="text-[#c5a059] text-lg">↓</span>
+                <span className="text-[#c5a059] text-base sm:text-lg">↓</span>
               </a>
             </div>
           </main>
 
           {/* Hero Bottom Bar */}
-          <footer className="w-full flex items-end justify-between text-xs sm:text-sm md:text-base font-mono font-semibold tracking-widest text-white/80">
+          <footer className="w-full flex items-end justify-between text-[11px] sm:text-sm md:text-base font-mono font-semibold tracking-widest text-white/80">
             <div className="hidden sm:block leading-relaxed uppercase">
               Connect.<br />
               Collaborate.<br />
@@ -190,9 +194,9 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
             </div>
 
             {/* SCROLL ↓ Indicator */}
-            <div className="mx-auto sm:mx-0 flex flex-col items-center space-y-2 animate-pulse">
-              <span className="text-xs md:text-sm font-mono font-bold tracking-[0.25em] text-white">SCROLL</span>
-              <span className="text-[#c5a059] text-xl font-bold">↓</span>
+            <div className="mx-auto sm:mx-0 flex flex-col items-center space-y-1 sm:space-y-2 animate-pulse">
+              <span className="text-[11px] sm:text-xs md:text-sm font-mono font-bold tracking-[0.2em] text-white">SCROLL</span>
+              <span className="text-[#c5a059] text-lg sm:text-xl font-bold">↓</span>
             </div>
           </footer>
         </div>
@@ -206,7 +210,7 @@ export const ParallaxHero: React.FC<ParallaxHeroProps> = ({
           <img
             src="./hero-fg.png"
             alt="Foreground right-side cliff and forested mountain slope"
-            className="w-full h-full object-cover object-top scale-[1.08]"
+            className="w-full h-full object-cover object-[75%_center] md:object-center scale-[1.08]"
           />
         </div>
 
