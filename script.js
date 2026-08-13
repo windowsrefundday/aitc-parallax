@@ -216,6 +216,8 @@
         choice.setAttribute("aria-selected", active ? "true" : "false");
       });
 
+      button.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+
       if (reducedMotion) {
         experienceTitle.textContent = content.title;
         experienceCopy.textContent = content.copy;
