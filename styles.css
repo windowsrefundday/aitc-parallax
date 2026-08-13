@@ -108,11 +108,11 @@ body {
   position: absolute;
   z-index: 10;
   right: var(--hero-inset);
-  bottom: calc(max(24px, env(safe-area-inset-bottom)) + clamp(12px, 3vh, 36px));
+  bottom: calc(max(48px, env(safe-area-inset-bottom)) + clamp(32px, 9vh, 110px));
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: clamp(12px, 2vh, 26px);
+  gap: clamp(14px, 2.2vh, 30px);
   will-change: transform, opacity;
   pointer-events: auto;
 }
