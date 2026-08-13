@@ -343,7 +343,7 @@ main,
   width: 100%;
   margin-top: clamp(16px, 3vh, 40px);
   text-align: left;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--ink);
   display: flex;
   flex-direction: column;
@@ -353,14 +353,15 @@ main,
 .line-sub {
   font-size: var(--hero-type-size);
   line-height: 0.94;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.03em;
   color: var(--ink);
+  font-weight: 600;
 }
 
 .line-sub {
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   color: rgba(33, 100, 52, 0.75);
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .line-sub:of-type(1),
@@ -424,10 +425,10 @@ main,
 .hero-cta a {
   display: block;
   font-family: var(--font);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(24px, min(6.5vw, 4.5vh), 56px);
   line-height: 1.03;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.025em;
   text-align: right;
   text-decoration: none;
   will-change: transform, opacity;
