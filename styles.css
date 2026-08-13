@@ -121,8 +121,8 @@ body {
   display: block;
   font-family: var(--font);
   font-weight: 800;
-  font-size: clamp(20px, min(5.2vw, 3.8vh), 46px);
-  line-height: 1.04;
+  font-size: clamp(26px, min(7vw, 5.4vh), 64px);
+  line-height: 1.03;
   letter-spacing: -0.055em;
   text-align: right;
   text-decoration: none;
