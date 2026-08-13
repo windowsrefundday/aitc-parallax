@@ -1054,7 +1054,6 @@ main,
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   gap: clamp(2.5rem, 6vw, 8rem);
   align-items: center;
-  width: 100%;
   min-width: 0;
 }
 
@@ -1840,7 +1839,6 @@ main,
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    width: 100%;
     min-width: 0;
   }
 
