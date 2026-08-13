@@ -266,4 +266,57 @@
         });
     });
   });
+
+  // Question Mark Diagonal Parallax (Bottom-Left to Top-Right)
+  const beginnerSection = document.querySelector("#beginners");
+  const beginnerMark = document.querySelector(".beginner-mark");
+
+  if (beginnerSection && beginnerMark && !reducedMotion) {
+    let ticking = false;
+
+    const updateParallax = () => {
+      const rect = beginnerSection.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const totalDistance = vh + rect.height;
+      const progress = (vh - rect.top) / totalDistance;
+      const clamped = Math.max(0, Math.min(1, progress));
+
+      // Diagonal vector: sweeps from bottom-left to top-right behind copy
+      const startX = -36;
+      const endX = 18;
+      const startY = 32;
+      const endY = -28;
+      const startRot = -18;
+      const endRot = 12;
+      const startScale = 0.85;
+      const endScale = 1.18;
+      const startOpacity = 0.03;
+      const maxOpacity = 0.18;
+
+      const x = startX + (endX - startX) * clamped;
+      const y = startY + (endY - startY) * clamped;
+      const rot = startRot + (endRot - startRot) * clamped;
+      const scale = startScale + (endScale - startScale) * clamped;
+
+      // Arc opacity (peaks in the center when reading the section)
+      const opacityFactor = 1 - Math.abs(clamped - 0.5) * 2;
+      const opacity = startOpacity + (maxOpacity - startOpacity) * Math.max(0, opacityFactor);
+
+      beginnerMark.style.transform = `translate3d(${x.toFixed(2)}vw, ${y.toFixed(2)}vh, 0) rotate(${rot.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+      beginnerMark.style.opacity = Math.max(0.03, opacity).toFixed(3);
+
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    updateParallax();
+  }
 })();

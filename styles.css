@@ -872,6 +872,7 @@ main,
 /* beginners */
 
 .beginner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -880,31 +881,23 @@ main,
   overflow: hidden;
   background: transparent;
 }
-  background: transparent;
-}
-
-.beginner::before {
-  position: absolute;
-  top: 16%;
-  right: -16%;
-  width: 55vw;
-  max-width: 46rem;
-  aspect-ratio: 1;
-  content: "";
-  border: 1px solid rgba(255, 243, 203, 0.18);
-  border-radius: 50%;
-  transform: rotate(18deg);
-}
 
 .beginner-mark {
   position: absolute;
-  top: 5%;
+  top: 15%;
   right: 12%;
-  color: rgba(255, 243, 203, 0.14);
-  font-size: clamp(12rem, 40vw, 34rem);
+  color: var(--cream);
+  opacity: 0.15;
+  font-size: clamp(14rem, 44vw, 38rem);
   font-weight: 600;
   letter-spacing: -0.08em;
   line-height: 0.7;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  will-change: transform, opacity;
+  transform-origin: center center;
+  text-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
 }
 
 .beginner-grid {
