@@ -377,17 +377,23 @@ main,
 }
 
 .hero-line-main {
-  color: rgba(33, 100, 52, 0.64);
+  color: var(--ink);
+  font-size: 1em;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
 }
 
 .hero-line-sub {
-  color: rgba(33, 100, 52, 0.82);
-  font-size: 0.82em;
-  letter-spacing: -0.02em;
+  font-size: clamp(18px, min(5.6vw, 3.3vh), 46px);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: rgba(33, 100, 52, 0.75);
+  font-weight: 700;
 }
 
-.hero-line-sub:first-of-type {
-  margin-top: clamp(9px, 1.6vh, 20px);
+.hero-line-sub:first-of-type,
+.hero-line-main + .hero-line-sub {
+  margin-top: clamp(10px, 1.8vh, 22px);
 }
 
 @keyframes hero-rise {
@@ -1744,7 +1750,7 @@ main,
   }
 
   .hero-line-sub {
-    font-size: 0.78em;
+    font-size: clamp(24px, min(6.5vw, 4.3vh), 60px);
   }
 
   .project-card {
