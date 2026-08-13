@@ -1,173 +1,269 @@
-/* AITC — modern parallax hero */
 (() => {
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const root = document.documentElement;
+  const nav = document.querySelector(".site-nav");
+  const hero = document.querySelector(".hero");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
 
-  /* scroll reveal */
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          e.target.classList.add("in");
-          io.unobserve(e.target);
-        }
-      }
-    },
-    /* Stage content before it reaches the viewport so scroll does not reveal a
-       completely transparent heading in the same frame it becomes visible. */
-    { rootMargin: "0px 0px 18% 0px", threshold: 0.01 }
-  );
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-
-  /* slider pagination */
-  const slides = document.querySelectorAll(".slide-card");
-  const dots = document.querySelectorAll(".slider-pagination .dot");
-  if (slides.length > 0 && dots.length > 0) {
-    const sliderIo = new IntersectionObserver(
-      (entries) => {
+  const revealElements = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Array.from(slides).indexOf(entry.target);
-            dots.forEach((dot, i) => {
-              dot.classList.toggle("active", i === index);
-            });
-          }
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("in");
+          observer.unobserve(entry.target);
         });
       },
-      { root: document.querySelector(".slider-track"), threshold: 0.5 }
+      { rootMargin: "200px 0px 50% 0px", threshold: 0.01 }
     );
-    slides.forEach((slide) => sliderIo.observe(slide));
+
+    revealElements.forEach((element) => revealObserver.observe(element));
+  } else {
+    revealElements.forEach((element) => element.classList.add("in"));
   }
 
+  if (reducedMotion) {
+    revealElements.forEach((element) => element.classList.add("in"));
+  }
 
-  /* Best-effort browser chrome tint. Chrome/iOS may keep its own UI color while scrolling. */
-  const themeMeta = document.querySelector('meta[name="theme-color"]');
-  let maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-  const gradientStops = [
-    [0.00, [255, 243, 203]],
-    [0.08, [240, 233, 176]],
-    [0.17, [211, 215, 164]],
-    [0.28, [169, 196, 147]],
-    [0.39, [121, 169, 117]],
-    [0.49, [78, 144, 93]],
-    [0.58, [49, 115, 65]],
-    [0.68, [33, 100, 52]],
-    [0.82, [20, 63, 39]],
-    [1.00, [12, 39, 25]]
-  ];
-  const gradientColorAt = (progress) => {
-    const p = Math.min(1, Math.max(0, progress));
-    for (let i = 1; i < gradientStops.length; i += 1) {
-      const [end, endRgb] = gradientStops[i];
-      const [start, startRgb] = gradientStops[i - 1];
-      if (p <= end) {
-        const ratio = (p - start) / (end - start);
-        const rgb = startRgb.map((value, index) => Math.round(value + (endRgb[index] - value) * ratio));
-        return `#${rgb.map((value) => value.toString(16).padStart(2, "0")).join("")}`;
-      }
+  if (nav && hero) {
+    const navObserver = new IntersectionObserver(
+      ([entry]) => nav.classList.toggle("is-scrolled", !entry.isIntersecting),
+      { threshold: 0.12 }
+    );
+    navObserver.observe(hero);
+  }
+
+  const sections = document.querySelectorAll("[data-chrome][data-scene]");
+  const navLinks = document.querySelectorAll("[data-nav-link]");
+  let lastChromeColor = "";
+  const updateTheme = (section) => {
+    const color = section.dataset.chrome;
+    const scene = section.dataset.scene;
+    if (!color || !scene) return;
+
+    root.dataset.scene = scene;
+
+    if (color !== lastChromeColor) {
+      root.style.setProperty("--chrome-bridge", color);
+      root.style.setProperty("--scene-tint", color);
+      root.style.setProperty("--overscroll-color", color);
+      if (themeMeta) themeMeta.setAttribute("content", color);
+      lastChromeColor = color;
     }
-    return "#0c2719";
-  };
-  const updateThemeColor = () => {
-    if (!themeMeta) return;
-    maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    const progress = window.scrollY / Math.max(1, document.documentElement.scrollHeight);
-    const color = gradientColorAt(progress);
-    document.documentElement.style.setProperty("--chrome-bridge", color);
-    const overscrollColor = window.scrollY <= 0
-      ? "#fff3cb"
-      : window.scrollY >= maxScroll
-        ? "#0c2719"
-        : color;
-    document.documentElement.style.setProperty("--overscroll-color", overscrollColor);
-    if (themeMeta.getAttribute("content") !== color) themeMeta.setAttribute("content", color);
-  };
-  updateThemeColor();
-  window.addEventListener("scroll", updateThemeColor, { passive: true });
 
-  if (reduced) return;
-
-  const lines = [...document.querySelectorAll(".line")];
-  const ctaGroup = document.querySelector(".hero-cta");
-
-  let scrollY = window.scrollY;
-  let viewportHeight = window.innerHeight;
-  let px = 0;
-  let py = 0;
-  let cx = 0;
-  let cy = 0;
-  let ticking = false;
-
-  const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  if (!hasFinePointer) return;
-
-  const onScroll = () => {
-    scrollY = window.scrollY;
-    requestTick();
+    navLinks.forEach((link) => {
+      link.classList.toggle("is-active", link.getAttribute("href") === `#${section.id}`);
+    });
   };
 
-  const onPointer = (e) => {
-    if (!hasFinePointer) return;
-    px = (e.clientX / window.innerWidth) * 2 - 1;
-    py = (e.clientY / window.innerHeight) * 2 - 1;
-    requestTick();
+  if (sections.length) updateTheme(sections[0]);
+
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) updateTheme(entry.target);
+      });
+    },
+    { rootMargin: "-42% 0px -42% 0px", threshold: 0 }
+  );
+
+  sections.forEach((section) => sectionObserver.observe(section));
+
+  const track = document.querySelector("#project-track");
+  const cards = track ? [...track.querySelectorAll(".project-card")] : [];
+  const dots = [...document.querySelectorAll(".dot")];
+
+  const setActiveCard = (index) => {
+    cards.forEach((card, cardIndex) => card.classList.toggle("is-active", cardIndex === index));
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("is-active", dotIndex === index);
+      dot.setAttribute("aria-current", dotIndex === index ? "true" : "false");
+    });
   };
 
-  const resetPointer = () => {
-    px = 0;
-    py = 0;
-    requestTick();
-  };
+  if (track && cards.length) {
+    const updateActiveFromCenter = () => {
+      const trackBounds = track.getBoundingClientRect();
+      const trackCenter = trackBounds.left + trackBounds.width / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
 
-  const requestTick = () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  };
+      cards.forEach((card, index) => {
+        const bounds = card.getBoundingClientRect();
+        const visible = bounds.right > trackBounds.left && bounds.left < trackBounds.right;
+        if (!visible) return;
+        const distance = Math.abs((bounds.left + bounds.right) / 2 - trackCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
 
-  const update = () => {
-    ticking = false;
-    const vh = viewportHeight;
+      setActiveCard(closestIndex);
+    };
 
-    // Smooth pointer lerp
-    const lerpFactor = 0.08;
-    cx += (px - cx) * lerpFactor;
-    cy += (py - cy) * lerpFactor;
+    const cardObserver = new IntersectionObserver(
+      () => updateActiveFromCenter(),
+      { root: track, threshold: 0.65 }
+    );
 
-    lines.forEach((line, i) => {
-      const depth = (i + 1) / lines.length;
-      const liftRate = 0.09 + i * 0.08;
-      const lift = -Math.min(scrollY, vh * 1.3) * liftRate;
-      const driftCoeff = 0.038;
-      const sideDrift = (i % 2 === 0 ? -1 : 1) * Math.min(scrollY, vh * 1.3) * driftCoeff;
-      const mx = cx * 12 * depth;
-      const my = cy * 8 * depth;
-      const scale = Math.max(0.88, 1 - Math.min(scrollY, vh * 1.3) * 0.00035);
-      const fade = Math.max(0, 1 - scrollY / (vh * 0.78));
+    cards.forEach((card) => cardObserver.observe(card));
+    updateActiveFromCenter();
 
-      line.style.transform = `translate3d(${(mx + sideDrift).toFixed(2)}px, ${(lift + my).toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
-      line.style.opacity = fade.toFixed(3);
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const index = Number(dot.dataset.slide);
+        cards[index]?.scrollIntoView({
+          behavior: reducedMotion ? "auto" : "smooth",
+          block: "nearest",
+          inline: "center"
+        });
+      });
     });
 
-    if (ctaGroup) {
-      const cappedScroll = Math.min(scrollY, vh * 1.3);
-      const baseLift = -cappedScroll * 0.22;
-      const mx = cx * 14;
-      const my = cy * 8;
-      const fade = Math.max(0, 1 - scrollY / (vh * 0.72));
-      ctaGroup.style.opacity = fade.toFixed(3);
-      ctaGroup.style.transform = `translate3d(${mx.toFixed(2)}px, ${(baseLift + my).toFixed(2)}px, 0)`;
+    if (!reducedMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      cards.forEach((card) => {
+        let bounds = null;
+        let frameId = 0;
+        let latestPointer = null;
+
+        const resetTilt = () => {
+          if (frameId) cancelAnimationFrame(frameId);
+          frameId = 0;
+          latestPointer = null;
+          bounds = null;
+          card.style.removeProperty("--card-tilt-x");
+          card.style.removeProperty("--card-tilt-y");
+          card.style.removeProperty("will-change");
+        };
+
+        card.addEventListener("pointerenter", () => {
+          bounds = card.getBoundingClientRect();
+          card.style.willChange = "transform";
+        });
+
+        card.addEventListener("pointermove", (event) => {
+          if (!bounds) bounds = card.getBoundingClientRect();
+          latestPointer = { x: event.clientX, y: event.clientY };
+          if (frameId) return;
+
+          frameId = requestAnimationFrame(() => {
+            frameId = 0;
+            if (!bounds || !latestPointer) return;
+            const x = (latestPointer.x - bounds.left) / bounds.width - 0.5;
+            const y = (latestPointer.y - bounds.top) / bounds.height - 0.5;
+            card.style.setProperty("--card-tilt-x", `${(-y * 2.4).toFixed(2)}deg`);
+            card.style.setProperty("--card-tilt-y", `${(x * 2.8).toFixed(2)}deg`);
+          });
+        });
+
+        card.addEventListener("pointerleave", resetTilt);
+        card.addEventListener("pointercancel", resetTilt);
+      });
+    }
+  }
+
+  const timeline = document.querySelector("[data-timeline]");
+  if (timeline && reducedMotion) timeline.classList.add("in");
+
+  const experienceData = {
+    workshops: {
+      title: "make your first project.",
+      copy: "a place to try something small, ask questions, and leave with something you made."
+    },
+    "project teams": {
+      title: "take an idea further.",
+      copy: "find people who care about the same problem and keep building together."
+    },
+    competitions: {
+      title: "test what you built.",
+      copy: "share your work, learn from the room, and see how far the idea can go."
+    },
+    community: {
+      title: "make something useful for others.",
+      copy: "work on ideas that can help your school, your neighborhood, or someone who needs it."
+    },
+    entrepreneurship: {
+      title: "turn a strong project into something bigger.",
+      copy: "keep asking good questions and see where the work can lead."
     }
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  if (hasFinePointer) window.addEventListener("pointermove", onPointer, { passive: true });
-  window.addEventListener("pointercancel", resetPointer, { passive: true });
-  window.addEventListener("resize", () => {
-    viewportHeight = window.innerHeight;
-    maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    updateThemeColor();
-    requestTick();
-  }, { passive: true });
-  requestTick();
+  const experienceButtons = document.querySelectorAll(".experience-choice");
+  const experienceContent = document.querySelector(".experience-panel-content");
+  const experienceTitle = document.querySelector("#experience-panel-title");
+  const experienceCopy = document.querySelector("#experience-panel-copy");
+  let experienceAnimation = null;
+  let experienceRequest = 0;
+
+  const stopExperienceAnimation = () => {
+    if (!experienceAnimation) return;
+    experienceAnimation.cancel();
+    experienceAnimation = null;
+  };
+
+  experienceButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.experienceKey;
+      const content = experienceData[key];
+      if (!content || !experienceTitle || !experienceCopy) return;
+
+      experienceButtons.forEach((choice) => {
+        const active = choice === button;
+        choice.classList.toggle("is-active", active);
+        choice.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      if (reducedMotion) {
+        experienceTitle.textContent = content.title;
+        experienceCopy.textContent = content.copy;
+        return;
+      }
+
+      if (!experienceContent) return;
+
+      const request = ++experienceRequest;
+      const computed = getComputedStyle(experienceContent);
+      const startOpacity = Number.parseFloat(computed.opacity);
+      const startTransform = computed.transform === "none" ? "translate3d(0, 0, 0)" : computed.transform;
+      stopExperienceAnimation();
+      experienceContent.style.willChange = "opacity, transform";
+
+      const exitAnimation = experienceContent.animate(
+        [
+          { opacity: Number.isFinite(startOpacity) ? startOpacity : 1, transform: startTransform },
+          { opacity: 0, transform: "translate3d(0, 8px, 0)" }
+        ],
+        { duration: 160, easing: "cubic-bezier(0.23, 1, 0.32, 1)", fill: "both" }
+      );
+      experienceAnimation = exitAnimation;
+
+      exitAnimation.finished
+        .then(() => {
+          if (request !== experienceRequest) return;
+          experienceTitle.textContent = content.title;
+          experienceCopy.textContent = content.copy;
+
+          const enterAnimation = experienceContent.animate(
+            [
+              { opacity: 0, transform: "translate3d(0, -8px, 0)" },
+              { opacity: 1, transform: "translate3d(0, 0, 0)" }
+            ],
+            { duration: 220, easing: "cubic-bezier(0.23, 1, 0.32, 1)", fill: "both" }
+          );
+          experienceAnimation = enterAnimation;
+
+          return enterAnimation.finished.then(() => {
+            if (request !== experienceRequest) return;
+            experienceContent.style.willChange = "auto";
+            experienceAnimation = null;
+          });
+        })
+        .catch(() => {
+          if (request === experienceRequest) experienceContent.style.willChange = "auto";
+        });
+    });
+  });
 })();

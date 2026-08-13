@@ -1,102 +1,282 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>AITC — build with ai.</title>
-    <meta name="description" content="AI & Technology Innovation Club — build with ai. create whats next." />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>aitc | build with ai.</title>
+    <meta name="description" content="aitc helps students learn, build, compete, and keep going." />
     <meta name="theme-color" content="#fff3cb" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta property="og:title" content="AITC — build with ai." />
-    <meta property="og:description" content="build with ai. create whats next." />
+    <meta property="og:title" content="aitc | build with ai." />
+    <meta property="og:description" content="start with something you want to make." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://windowsrefundday.github.io/aitc-parallax/" />
     <meta property="og:image" content="https://windowsrefundday.github.io/aitc-parallax/og-image.png" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23216434'/%3E%3Ctext x='32' y='42' font-family='Helvetica,Arial,sans-serif' font-size='26' font-weight='700' fill='%23fff3cb' text-anchor='middle'%3Eai%3C/text%3E%3C/svg%3E" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="page-background" aria-hidden="true">
+      <span class="background-scene background-scene-cream"></span>
+      <span class="background-scene background-scene-sage"></span>
+      <span class="background-scene background-scene-forest"></span>
+      <span class="background-scene background-scene-deep"></span>
+    </div>
 
-    <header class="hero">
+    <a class="skip-link" href="#main">skip to content</a>
+
+    <nav class="site-nav" aria-label="main navigation">
+      <a class="site-brand" href="#top">aitc</a>
+      <div class="site-nav-links">
+        <a href="#projects" data-nav-link>projects</a>
+        <a href="#program" data-nav-link>program</a>
+        <a class="nav-join" href="#join" data-nav-link>join</a>
+      </div>
+    </nav>
+
+    <div id="top" class="page-top" aria-hidden="true"></div>
+
+    <header class="hero" id="home" data-chrome="#fff3cb" data-scene="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-noise" aria-hidden="true"></div>
       <h1 class="hero-title">
-        <span class="line line-main" style="--i: 0">build</span>
-        <span class="line line-main" style="--i: 1">with ai.</span>
-        <span class="line line-sub" style="--i: 2">create</span>
-        <span class="line line-sub" style="--i: 3">whats</span>
-        <span class="line line-sub" style="--i: 4">next.</span>
+        <span class="hero-line hero-line-main" style="--line-index: 0">build</span>
+        <span class="hero-line hero-line-main" style="--line-index: 1">with ai.</span>
+        <span class="hero-line hero-line-sub" style="--line-index: 2">create</span>
+        <span class="hero-line hero-line-sub" style="--line-index: 3">whats</span>
+        <span class="hero-line hero-line-sub" style="--line-index: 4">next.</span>
       </h1>
       <div class="hero-bottom">
-        <div class="hero-logo reveal" aria-label="AITC Logo"></div>
-        <nav class="hero-cta" aria-label="calls to action">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9-adXelyiVxeakbx0rhvgAaQ3_xyz4inqL4m3J1UWdzxM9A/viewform?usp=send_form&usp=embed_facebook" target="_blank" rel="noopener noreferrer" class="cta-main">join aitc</a>
-          <a href="#about" class="cta-fade">see whats<br />possible</a>
-        </nav>
+        <div class="hero-logo" aria-label="aitc logo"></div>
+        <div class="hero-actions">
+          <a class="hero-project-link" href="#projects">see what is possible</a>
+          <a class="hero-join-link" href="#join">join aitc</a>
+        </div>
       </div>
     </header>
 
-  <main>
-    <section id="possibilities" class="possibilities">
-        <h2 class="possibilities-title reveal">what's even<br/>possible?</h2>
-        
-        <div class="slider-wrapper reveal">
-          <div class="slider-track" id="sliderTrack">
-            <!-- Slide 1 -->
-            <div class="slide-card">
-              <div class="slide-logo">matterHub</div>
-              <div class="slide-text">
-                <p>a device that can control your home. won TYE® best prize for best prototype.</p>
-              </div>
-              <div class="slide-media">
-                <div class="slide-image-placeholder"></div>
-              </div>
-            </div>
-            
-            <!-- Slide 2 -->
-            <div class="slide-card">
-              <div class="slide-logo">[ logo ]</div>
-              <div class="slide-text">
-                <p>[ placeholder copy for slide 2 ]</p>
-              </div>
-              <div class="slide-media">
-                <div class="slide-image-placeholder"></div>
-              </div>
-            </div>
+    <main id="main">
+      <section class="projects section-dark" id="projects" data-chrome="#8dad82" data-scene="projects">
+        <div class="projects-intro page-width reveal">
+          <p class="section-whisper">start here</p>
+          <h2>what's even<br />possible?</h2>
+          <p class="projects-lede">a few things students have already started.</p>
+        </div>
 
-            <!-- Slide 3 -->
-            <div class="slide-card">
-              <div class="slide-logo">[ logo ]</div>
-              <div class="slide-text">
-                <p>[ placeholder copy for slide 3 ]</p>
+        <div class="slider-wrapper">
+          <div class="slider-track" id="project-track" aria-label="aitc projects">
+            <article class="project-card project-card-matterhub" data-project="matterhub" tabindex="0">
+              <div class="project-card-heading">
+                <span class="project-card-name">matterhub</span>
+                <span class="project-card-type">home, made simpler</span>
               </div>
-              <div class="slide-media">
-                <div class="slide-image-placeholder"></div>
+              <p class="project-card-copy">a device that can control your home. a first idea made real.</p>
+              <div class="project-art matterhub-art" aria-hidden="true">
+                <span class="matterhub-panel"></span>
+                <span class="matterhub-orb"></span>
+                <span class="matterhub-line"></span>
               </div>
-            </div>
+            </article>
+
+            <article class="project-card project-card-networkly" data-project="networkly" tabindex="0">
+              <div class="project-card-heading">
+                <span class="project-card-name">networkly</span>
+                <span class="project-card-type">people, in the same place</span>
+              </div>
+              <p class="project-card-copy">a simple way to bring people and ideas together.</p>
+              <div class="project-art networkly-art" aria-hidden="true">
+                <span class="networkly-ring networkly-ring-one"></span>
+                <span class="networkly-ring networkly-ring-two"></span>
+                <span class="networkly-node networkly-node-one"></span>
+                <span class="networkly-node networkly-node-two"></span>
+                <span class="networkly-node networkly-node-three"></span>
+              </div>
+            </article>
+
+            <article class="project-card project-card-va" data-project="va scan" tabindex="0">
+              <div class="project-card-heading">
+                <span class="project-card-name">va scan</span>
+                <span class="project-card-type">look closer</span>
+              </div>
+              <p class="project-card-copy">see what matters. make the next step easier.</p>
+              <div class="project-art va-art" aria-hidden="true">
+                <span class="va-frame"></span>
+                <span class="va-scan-line"></span>
+                <span class="va-glow"></span>
+                <span class="va-corner va-corner-one"></span>
+                <span class="va-corner va-corner-two"></span>
+              </div>
+            </article>
           </div>
-          
-          <div class="slider-pagination" id="sliderDots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+
+          <div class="slider-pagination" id="project-dots" aria-label="choose a project">
+            <button class="dot is-active" type="button" data-slide="0" aria-label="show matterhub"></button>
+            <button class="dot" type="button" data-slide="1" aria-label="show networkly"></button>
+            <button class="dot" type="button" data-slide="2" aria-label="show va scan"></button>
           </div>
         </div>
       </section>
 
-      <section id="about" class="about">
-        <p class="eyebrow reveal">ai &amp; technology innovation club</p>
-        <h2 class="reveal scrub-title">
-          <span class="scrub-word">what</span> <span class="scrub-word">will</span><br /><span class="scrub-word">you</span> <span class="scrub-word">build?</span>
-        </h2>
-        <p class="lede reveal">a student community learning, experimenting, and creating with ai.</p>
+      <section class="project-turn section-dark reveal" data-chrome="#216434" data-scene="forest" aria-labelledby="turn-title">
+        <div class="turn-orbit" aria-hidden="true"></div>
+        <div class="turn-content page-width">
+          <p class="section-whisper">now it is your turn</p>
+          <h2 id="turn-title">so what will<br />you build?</h2>
+          <div class="turn-copy">
+            <p>you don't need experience.</p>
+            <p>you don't need the perfect idea.</p>
+            <p>start with something you want to make.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="word-sequence section-dark" data-chrome="#216434" data-scene="forest" aria-labelledby="sequence-title">
+        <div class="page-width">
+          <h2 class="sr-only" id="sequence-title">learn, build, compete, pitch</h2>
+          <div class="kinetic-words" aria-hidden="true">
+            <span class="kinetic-word kinetic-learn reveal">learn</span>
+            <span class="kinetic-word kinetic-build reveal">build</span>
+            <span class="kinetic-word kinetic-compete reveal">compete</span>
+            <span class="kinetic-word kinetic-pitch reveal">pitch</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="beginner section-dark" id="beginners" data-chrome="#0c2719" data-scene="deep" aria-labelledby="beginner-title">
+        <div class="beginner-mark" aria-hidden="true">?</div>
+        <div class="beginner-grid page-width reveal">
+          <div class="beginner-headline">
+            <p class="section-whisper">a good place to start</p>
+            <h2 id="beginner-title">but i can't<br />code.</h2>
+            <p class="good-word">good.</p>
+          </div>
+          <div class="beginner-copy">
+            <p class="beginner-lede">you need an idea.<br />we'll start from there.</p>
+            <p>aitc is built for beginners too. no previous experience is required. we can help you take the first step.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="program section-dark" id="program" data-chrome="#0c2719" data-scene="deep" aria-labelledby="program-title">
+        <div class="program-intro page-width reveal">
+          <p class="section-whisper">the path</p>
+          <h2 id="program-title">how aitc works</h2>
+          <p>start small. keep going. make something you are proud of.</p>
+        </div>
+
+        <div class="timeline page-width" data-timeline>
+          <span class="timeline-line" aria-hidden="true"></span>
+          <ol class="timeline-list">
+            <li class="timeline-step reveal">
+              <span class="timeline-number">01</span>
+              <div>
+                <h3>learn</h3>
+                <p>use new tools. make your first project.</p>
+              </div>
+            </li>
+            <li class="timeline-step reveal">
+              <span class="timeline-number">02</span>
+              <div>
+                <h3>build</h3>
+                <p>choose a problem. find teammates. make something real.</p>
+              </div>
+            </li>
+            <li class="timeline-step reveal">
+              <span class="timeline-number">03</span>
+              <div>
+                <h3>compete</h3>
+                <p>join challenges and share your work.</p>
+              </div>
+            </li>
+            <li class="timeline-step reveal">
+              <span class="timeline-number">04</span>
+              <div>
+                <h3>pitch</h3>
+                <p>present your strongest ideas and get useful feedback.</p>
+              </div>
+            </li>
+            <li class="timeline-step reveal">
+              <span class="timeline-number">05</span>
+              <div>
+                <h3>keep going</h3>
+                <p>selected projects may receive continued support and mentorship.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="experience section-dark" id="experience" data-chrome="#0c2719" data-scene="deep" aria-labelledby="experience-title">
+        <div class="experience-grid page-width reveal">
+          <div class="experience-intro">
+            <p class="section-whisper">inside the club</p>
+            <h2 id="experience-title">make room<br />for a lot.</h2>
+            <p>there is more than one way to find your place here.</p>
+          </div>
+
+          <div class="experience-switcher" data-experience>
+            <div class="experience-choices" role="tablist" aria-label="club experiences">
+              <button class="experience-choice is-active" type="button" role="tab" aria-selected="true" data-experience-key="workshops">workshops</button>
+              <button class="experience-choice" type="button" role="tab" aria-selected="false" data-experience-key="project teams">project teams</button>
+              <button class="experience-choice" type="button" role="tab" aria-selected="false" data-experience-key="competitions">competitions</button>
+              <button class="experience-choice" type="button" role="tab" aria-selected="false" data-experience-key="community">community</button>
+              <button class="experience-choice" type="button" role="tab" aria-selected="false" data-experience-key="entrepreneurship">entrepreneurship</button>
+            </div>
+            <div class="experience-panel" role="tabpanel" aria-live="polite">
+              <div class="experience-panel-content">
+                <p class="experience-panel-label">right now</p>
+                <h3 id="experience-panel-title">make your first project.</h3>
+                <p id="experience-panel-copy">a place to try something small, ask questions, and leave with something you made.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="board section-dark" id="board" data-chrome="#0c2719" data-scene="deep" aria-labelledby="board-title">
+        <div class="board-heading page-width reveal">
+          <p class="section-whisper">the people</p>
+          <h2 id="board-title">built by students.<br />for students who want to build.</h2>
+        </div>
+        <div class="board-grid page-width">
+          <article class="board-member board-member-one">
+            <div class="portrait-space" aria-label="portrait space for joel"></div>
+            <h3>joel</h3>
+          </article>
+          <article class="board-member board-member-two">
+            <div class="portrait-space" aria-label="portrait space for vihaan"></div>
+            <h3>vihaan</h3>
+          </article>
+          <article class="board-member board-member-three">
+            <div class="portrait-space" aria-label="portrait space for nishanth"></div>
+            <h3>nishanth</h3>
+          </article>
+          <article class="board-member board-member-four">
+            <div class="portrait-space" aria-label="portrait space for yash"></div>
+            <h3>yash</h3>
+          </article>
+          <article class="board-member board-member-five">
+            <div class="portrait-space" aria-label="portrait space for sid"></div>
+            <h3>sid</h3>
+          </article>
+        </div>
+      </section>
+
+      <section class="final-cta section-dark" id="join" data-chrome="#0c2719" data-scene="deep" aria-labelledby="final-title">
+        <div class="final-cta-content page-width reveal">
+          <p class="section-whisper">one more thing</p>
+          <h2 id="final-title">make<br />something.</h2>
+          <p class="final-cta-subtitle">no experience required.</p>
+          <a class="final-join" href="https://docs.google.com/forms/d/e/1FAIpQLSf9-adXelyiVxeakbx0rhvgAaQ3_xyz4inqL4m3J1UWdzxM9A/viewform?usp=send_form&amp;usp=embed_facebook" target="_blank" rel="noopener noreferrer">join aitc <span aria-hidden="true">↗</span></a>
+          <p class="final-cta-note">join and help choose what we build first.</p>
+        </div>
       </section>
     </main>
 
-    <footer class="footer">
-      <p>this website was built with ai.</p>
+    <footer class="footer section-dark">
+      <p>made with ai by aitc.</p>
+      <a href="#top">back to top</a>
     </footer>
 
     <script src="script.js" defer></script>
