@@ -117,7 +117,7 @@
       }
     }
 
-    /* 2. Scrubbing Text Reveal & Depth Shift in #about */
+    /* 2. Depth Shift in #about */
     if (aboutSec) {
       const rect = aboutSec.getBoundingClientRect();
       const viewCenter = vh * 0.6;
@@ -125,24 +125,7 @@
 
       // Deep obsidian green background shift
       if (progress > 0) {
-        aboutSec.style.background = `linear-gradient(180deg, #1e5c33 0%, #103822 ${(progress * 40).toFixed(1)}%, #07190e 100%)`;
-      }
-
-      // Word-by-word scrub reveal
-      if (scrubWords.length > 0 && rect.top < vh && rect.bottom > 0) {
-        scrubWords.forEach((word, idx) => {
-          const threshold = 0.2 + idx * 0.12;
-          if (progress > threshold) {
-            const wordVal = Math.min(1, (progress - threshold) / 0.15);
-            word.style.opacity = wordVal.toFixed(3);
-            word.style.transform = `translate3d(0, ${((1 - wordVal) * 18).toFixed(2)}px, 0)`;
-            word.style.filter = `blur(${((1 - wordVal) * 6).toFixed(1)}px)`;
-          } else {
-            word.style.opacity = "0.2";
-            word.style.transform = "translate3d(0, 18px, 0)";
-            word.style.filter = "blur(6px)";
-          }
-        });
+        aboutSec.style.background = `linear-gradient(180deg, #1e5c33 0%, #103822 ${(progress * 45).toFixed(1)}%, #07190e 100%)`;
       }
     }
   };
