@@ -8,6 +8,7 @@
   --forest: #216434;
   --ink: rgba(33, 100, 52, 0.6);
   --font: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --hero-inset: clamp(18px, 4.8vw, 60px);
 }
 
 * {
@@ -66,10 +67,11 @@ body {
 .hero-title {
   position: relative;
   z-index: 1;
+  width: 100%;
   margin-top: 7vh;
   margin-top: 7svh;
   text-align: left;
-  padding-inline: clamp(24px, 7vw, 72px);
+  padding-inline: var(--hero-inset);
   font-weight: 800;
   font-size: clamp(52px, min(21vw, 13.5vh), 170px);
   font-size: clamp(52px, min(21vw, 13.5svh), 170px);
@@ -105,7 +107,7 @@ body {
 .hero-cta {
   position: absolute;
   z-index: 10;
-  right: clamp(20px, 5vw, 64px);
+  right: var(--hero-inset);
   bottom: calc(max(24px, env(safe-area-inset-bottom)) + clamp(12px, 3vh, 36px));
   display: flex;
   flex-direction: column;
