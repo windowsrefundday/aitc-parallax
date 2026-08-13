@@ -42,14 +42,18 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 
 .hero-bg {
   position: absolute;
-  inset: -10%;
+  inset: -12%;
   will-change: transform;
+  transform-origin: center center;
   background:
-    radial-gradient(90% 50% at 10% 0%, rgba(255, 248, 220, 0.8) 0%, rgba(255, 248, 220, 0) 55%),
+    radial-gradient(90% 50% at 10% 0%, rgba(255, 248, 220, 0.85) 0%, rgba(255, 248, 220, 0) 55%),
+    radial-gradient(60% 40% at 85% 90%, rgba(33, 100, 52, 0.4) 0%, transparent 80%),
     linear-gradient(
       152deg,
       #fff3cb 0%,
@@ -78,11 +82,13 @@ body {
   line-height: 1.14;
   letter-spacing: -0.055em;
   color: var(--ink);
+  transform-style: preserve-3d;
 }
 
 .line {
   display: block;
   will-change: transform, opacity;
+  transform-origin: left center;
   text-shadow:
     0 2px 10px rgba(255, 243, 203, 0.14),
     0 14px 34px rgba(15, 50, 30, 0.42),
@@ -115,6 +121,7 @@ body {
   gap: clamp(14px, 2.2vh, 30px);
   will-change: transform, opacity;
   pointer-events: auto;
+  transform-style: preserve-3d;
 }
 
 .hero-cta a {
@@ -126,7 +133,8 @@ body {
   letter-spacing: -0.055em;
   text-align: right;
   text-decoration: none;
-  transition: opacity 0.25s cubic-bezier(0.22, 0.61, 0.21, 1), transform 0.25s cubic-bezier(0.22, 0.61, 0.21, 1);
+  will-change: transform, opacity;
+  transition: opacity 0.25s cubic-bezier(0.22, 0.61, 0.21, 1), color 0.25s ease;
   animation: rise 0.9s cubic-bezier(0.22, 0.61, 0.21, 1) both;
 }
 
@@ -148,8 +156,8 @@ body {
 
 .hero-cta a:hover,
 .hero-cta a:focus-visible {
-  opacity: 0.75;
-  transform: translateX(-4px);
+  opacity: 0.85;
+  color: #ffffff;
   outline: none;
 }
 
@@ -160,6 +168,7 @@ body {
   background: linear-gradient(180deg, #1e5c33 0%, #143f27 45%, #0c2719 100%);
   padding: clamp(90px, 16vh, 170px) 24px clamp(100px, 18vh, 190px);
   text-align: center;
+  transition: background 0.3s ease-out;
 }
 
 .eyebrow {
@@ -186,6 +195,12 @@ body {
   color: var(--cream);
   text-shadow: 0 18px 50px rgba(6, 22, 13, 0.45);
   margin-bottom: clamp(26px, 4vh, 42px);
+}
+
+.scrub-word {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out, filter 0.2s ease-out;
 }
 
 .lede {
