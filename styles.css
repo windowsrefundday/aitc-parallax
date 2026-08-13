@@ -381,10 +381,13 @@ main,
 }
 
 .hero-line-sub {
-  margin-top: clamp(9px, 1.6vh, 20px);
   color: rgba(33, 100, 52, 0.82);
   font-size: 0.82em;
   letter-spacing: -0.02em;
+}
+
+.hero-line-sub:first-of-type {
+  margin-top: clamp(9px, 1.6vh, 20px);
 }
 
 @keyframes hero-rise {
