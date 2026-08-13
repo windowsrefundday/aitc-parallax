@@ -1,19 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-[#0b0d10] text-[#f5f5f0] antialiased">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AITC — What If You Could Build Anything?</title>
-    
-    <!-- Typography: Google Fonts Inter & Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="./assets/index-oDfjKqnz.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CXanYCys.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>AITC — build with ai.</title>
+    <meta name="description" content="AI & Technology Innovation Club — build with ai. create whats next." />
+    <meta name="theme-color" content="#216434" />
+    <meta property="og:title" content="AITC — build with ai." />
+    <meta property="og:description" content="build with ai. create whats next." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://windowsrefundday.github.io/aitc-parallax/" />
+    <meta property="og:image" content="https://windowsrefundday.github.io/aitc-parallax/og-image.png" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23216434'/%3E%3Ctext x='32' y='42' font-family='Helvetica,Arial,sans-serif' font-size='26' font-weight='700' fill='%23fff3cb' text-anchor='middle'%3Eai%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="bg-[#0b0d10] text-[#f5f5f0] overflow-x-hidden selection:bg-[#c5a059]/30 selection:text-white">
-    <div id="root"></div>
+  <body>
+    <header class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+    <h1 class="hero-title">
+      <span class="line" style="--i: 0">build</span>
+      <span class="line" style="--i: 1">with ai.</span>
+      <span class="line" style="--i: 2">create</span>
+      <span class="line" style="--i: 3">whats</span>
+      <span class="line" style="--i: 4">next.</span>
+    </h1>
+    <nav class="hero-cta" aria-label="calls to action">
+      <a href="#about" class="cta-main">join atc</a>
+      <a href="#about" class="cta-fade">see whats<br />possible</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about" class="about">
+        <p class="eyebrow reveal">ai &amp; technology innovation club</p>
+        <h2 class="reveal">what will<br />you build?</h2>
+        <p class="lede reveal">a student community learning, experimenting, and creating with ai.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>this website was built with ai.</p>
+    </footer>
+
+    <script src="script.js" defer></script>
   </body>
 </html>
