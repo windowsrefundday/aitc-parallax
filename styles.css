@@ -19,11 +19,15 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
 }
 
 body {
   font-family: var(--font);
   background: var(--cream);
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
   overflow-x: hidden;
   overscroll-behavior-y: none;
 }
@@ -38,16 +42,25 @@ body {
 
 #ambient-bg {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100dvh;
   z-index: -1;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .bg-layer {
   position: absolute;
-  inset: -10%; /* Slight bleed to allow for any parallax or rounding */
+  inset: -5%;
+  width: 110%;
+  height: 110%;
   opacity: 0;
-  transition: opacity 0.8s ease-in-out;
+  will-change: opacity;
+  transition: opacity 0.5s ease-out;
 }
 
 .bg-layer.active {
@@ -77,56 +90,47 @@ body {
 }
 
 .bg-about {
-  background: transparent; /* Solid deep forest/ink to end the page smoothly */
+  background: linear-gradient(180deg, #0c2719 0%, #06180f 100%);
 }
 
 /* ——— hero ——— */
 
 .hero {
   position: relative;
-  height: 100vh;
-  height: 100svh;
+  min-height: 100dvh;
+  height: 100dvh;
+  height: -webkit-fill-available;
   overflow: hidden;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding-inline: var(--hero-inset);
   touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
-}
-
-.hero-bg {
-  /* Note: hero-bg was removed in favor of #ambient-bg, this class is empty or deleted */
-}
-
-.hero-logo {
-  position: absolute;
-  bottom: calc(max(32px, env(safe-area-inset-bottom)) + clamp(24px, 6vh, 90px));
-  left: var(--hero-inset);
-  width: clamp(75px, 15vw, 160px); /* slightly smaller to fit vertically on mobile */
-  aspect-ratio: 1;
-  z-index: 10;
-  
-  /* Exact color matching via mask */
-  background-color: var(--cream);
-  -webkit-mask: url("logo.png") no-repeat bottom left / contain;
-  mask: url("logo.png") no-repeat bottom left / contain;
 }
 
 .hero-title {
   position: relative;
   z-index: 1;
   width: 100%;
-  margin-top: clamp(2vh, 4svh, 7svh); /* Push title up to give more room below */
+  margin-top: clamp(16px, 4vh, 48px);
   text-align: left;
-  padding-inline: var(--hero-inset);
   font-weight: 800;
-  font-size: clamp(52px, min(21vw, 13.5vh), 170px);
-  font-size: clamp(52px, min(21vw, 13.5svh), 170px);
-  line-height: 1.08; /* Tighter line height prevents bottom overlap */
+  font-size: clamp(34px, min(12vw, 7vh), 60px);
+  line-height: 1.02;
   letter-spacing: -0.055em;
   color: var(--ink);
 }
 
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: clamp(54px, min(18vw, 11vh), 160px);
+    margin-top: clamp(24px, 5vh, 60px);
+    line-height: 1.05;
+  }
+}
 .line {
   display: block;
   will-change: transform, opacity;
@@ -152,15 +156,35 @@ body {
   }
 }
 
-.hero-cta {
-  position: absolute;
+.hero-bottom {
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: clamp(8px, 2vh, 32px);
   z-index: 10;
-  right: var(--hero-inset);
-  bottom: calc(max(32px, env(safe-area-inset-bottom)) + clamp(24px, 6vh, 90px));
+}
+
+.hero-logo {
+  position: relative;
+  width: clamp(55px, 12vw, 140px);
+  aspect-ratio: 1;
+  z-index: 10;
+  
+  /* Exact color matching via mask */
+  background-color: var(--cream);
+  -webkit-mask: url("logo.png") no-repeat bottom left / contain;
+  mask: url("logo.png") no-repeat bottom left / contain;
+}
+
+.hero-cta {
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: clamp(14px, 2.2vh, 30px);
+  gap: clamp(10px, 1.8vh, 24px);
   will-change: transform, opacity;
   pointer-events: auto;
 }
@@ -169,7 +193,7 @@ body {
   display: block;
   font-family: var(--font);
   font-weight: 800;
-  font-size: clamp(26px, min(7vw, 5.4vh), 64px);
+  font-size: clamp(20px, min(5.5vw, 4vh), 56px);
   line-height: 1.03;
   letter-spacing: -0.055em;
   text-align: right;
@@ -217,7 +241,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(255, 243, 203, 0.55);
+  color: rgba(255, 243, 203, 0.75);
   margin-bottom: clamp(28px, 4vh, 44px);
 }
 
@@ -266,9 +290,8 @@ body {
   font-size: clamp(16px, 2.2vw, 20px);
   line-height: 1.55;
   font-weight: 500;
-  color: rgba(255, 243, 203, 0.66);
+  color: rgba(255, 243, 203, 0.85);
 }
-
 /* ——— possibilities slider ——— */
 
 .possibilities {

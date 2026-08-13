@@ -12,7 +12,7 @@
         }
       }
     },
-    { threshold: 0.25 }
+    { threshold: 0.1 }
   );
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
@@ -37,35 +37,63 @@
   }
 
 
-  /* ambient background fade */
-  const sections = [
-    { el: document.querySelector(".hero"), bgClass: ".bg-hero" },
-    { el: document.querySelector(".possibilities"), bgClass: ".bg-possibilities" },
-    { el: document.querySelector(".about"), bgClass: ".bg-about" }
-  ];
-  
-  const bgLayers = document.querySelectorAll(".bg-layer");
-  
-  const bgObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const matchedSection = sections.find(s => s.el === entry.target);
-          if (matchedSection) {
-            bgLayers.forEach(layer => layer.classList.remove("active"));
-            const targetBg = document.querySelector(matchedSection.bgClass);
-            if (targetBg) targetBg.classList.add("active");
-          }
-        }
-      });
-    },
-    { threshold: 0.3 } // Fade when section is 30% visible
-  );
-  
-  sections.forEach(s => {
-    if (s.el) bgObserver.observe(s.el);
-  });
+  /* ambient background fade & theme color */
+  const bgHero = document.querySelector(".bg-hero");
+  const bgPossibilities = document.querySelector(".bg-possibilities");
+  const bgAbout = document.querySelector(".bg-about");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
 
+  const updateBackgrounds = () => {
+    const vh = window.innerHeight;
+    const currentScrollY = window.scrollY;
+    const docHeight = Math.max(1, document.documentElement.scrollHeight - vh);
+
+    const heroSec = document.querySelector(".hero");
+    const possSec = document.querySelector(".possibilities");
+
+    const heroHeight = heroSec ? heroSec.offsetHeight : vh;
+    const possTop = possSec ? possSec.offsetTop : heroHeight;
+    const possHeight = possSec ? possSec.offsetHeight : vh;
+
+    let heroOpacity = 1;
+    let possOpacity = 0;
+    let aboutOpacity = 0;
+
+    const fadeStart1 = heroHeight * 0.35;
+    const fadeEnd1 = possTop + possHeight * 0.25;
+
+    if (currentScrollY <= fadeStart1) {
+      heroOpacity = 1;
+      possOpacity = 0;
+      aboutOpacity = 0;
+    } else if (currentScrollY < fadeEnd1) {
+      const p = (currentScrollY - fadeStart1) / (fadeEnd1 - fadeStart1);
+      heroOpacity = Math.max(0, 1 - p);
+      possOpacity = Math.min(1, p);
+      aboutOpacity = 0;
+    } else {
+      const fadeStart2 = fadeEnd1;
+      const p = Math.min(1, Math.max(0, (currentScrollY - fadeStart2) / (docHeight - fadeStart2)));
+      heroOpacity = 0;
+      possOpacity = Math.max(0, 1 - p);
+      aboutOpacity = Math.min(1, p);
+    }
+
+    if (bgHero) bgHero.style.opacity = heroOpacity.toFixed(3);
+    if (bgPossibilities) bgPossibilities.style.opacity = possOpacity.toFixed(3);
+    if (bgAbout) bgAbout.style.opacity = aboutOpacity.toFixed(3);
+
+    if (themeMeta) {
+      if (currentScrollY < heroHeight * 0.5) {
+        themeMeta.setAttribute("content", "#fff3cb");
+      } else if (currentScrollY < possTop + possHeight * 0.4) {
+        themeMeta.setAttribute("content", "#1e5c33");
+      } else {
+        themeMeta.setAttribute("content", "#0c2719");
+      }
+    }
+  };
+  updateBackgrounds();
   if (reduced) return;
 
     const lines = [...document.querySelectorAll(".line")];
@@ -112,6 +140,7 @@
 
   const update = () => {
     ticking = false;
+    updateBackgrounds();
     const vh = window.innerHeight;
     const mobile = isMobile();
 
