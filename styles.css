@@ -99,9 +99,9 @@ body {
 
 .hero-logo {
   position: absolute;
-  bottom: calc(max(48px, env(safe-area-inset-bottom)) + clamp(32px, 9vh, 110px));
+  bottom: calc(max(32px, env(safe-area-inset-bottom)) + clamp(24px, 6vh, 90px));
   left: var(--hero-inset);
-  width: clamp(100px, 18vw, 220px);
+  width: clamp(75px, 15vw, 160px); /* slightly smaller to fit vertically on mobile */
   aspect-ratio: 1;
   z-index: 10;
   
@@ -115,14 +115,13 @@ body {
   position: relative;
   z-index: 1;
   width: 100%;
-  margin-top: 7vh;
-  margin-top: 7svh;
+  margin-top: clamp(2vh, 4svh, 7svh); /* Push title up to give more room below */
   text-align: left;
   padding-inline: var(--hero-inset);
   font-weight: 800;
   font-size: clamp(52px, min(21vw, 13.5vh), 170px);
   font-size: clamp(52px, min(21vw, 13.5svh), 170px);
-  line-height: 1.14;
+  line-height: 1.08; /* Tighter line height prevents bottom overlap */
   letter-spacing: -0.055em;
   color: var(--ink);
 }
@@ -156,7 +155,7 @@ body {
   position: absolute;
   z-index: 10;
   right: var(--hero-inset);
-  bottom: calc(max(48px, env(safe-area-inset-bottom)) + clamp(32px, 9vh, 110px));
+  bottom: calc(max(32px, env(safe-area-inset-bottom)) + clamp(24px, 6vh, 90px));
   display: flex;
   flex-direction: column;
   align-items: flex-end;
