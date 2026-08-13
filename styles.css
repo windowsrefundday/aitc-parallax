@@ -32,25 +32,28 @@ body {
   color: #14522c;
 }
 
-/* ——— hero ——— */
 
-.hero {
-  position: relative;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  perspective: 1200px;
-  transform-style: preserve-3d;
+/* ——— ambient background ——— */
+
+#ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
 }
 
-.hero-bg {
+.bg-layer {
   position: absolute;
-  inset: -12%;
-  will-change: transform;
-  transform-origin: center center;
+  inset: -10%; /* Slight bleed to allow for any parallax or rounding */
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.bg-layer.active {
+  opacity: 1;
+}
+
+.bg-hero {
   background:
     radial-gradient(90% 50% at 10% 0%, rgba(255, 248, 220, 0.85) 0%, rgba(255, 248, 220, 0) 55%),
     radial-gradient(60% 40% at 85% 90%, rgba(33, 100, 52, 0.4) 0%, transparent 80%),
@@ -68,6 +71,46 @@ body {
     );
 }
 
+.bg-possibilities {
+  background: linear-gradient(160deg, #1e5c33 0%, #143f27 50%, #0c2719 100%);
+}
+
+.bg-about {
+  background: transparent; /* Solid deep forest/ink to end the page smoothly */
+}
+
+/* ——— hero ——— */
+
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero-bg {
+  /* Note: hero-bg was removed in favor of #ambient-bg, this class is empty or deleted */
+}
+
+.hero-logo {
+  position: absolute;
+  bottom: calc(max(48px, env(safe-area-inset-bottom)) + clamp(32px, 9vh, 110px));
+  left: var(--hero-inset);
+  width: clamp(100px, 18vw, 220px);
+  aspect-ratio: 1;
+  z-index: 10;
+  
+  /* Exact color matching via mask */
+  background-color: var(--cream);
+  -webkit-mask: url("logo.png") no-repeat bottom left / contain;
+  mask: url("logo.png") no-repeat bottom left / contain;
+}
+
 .hero-title {
   position: relative;
   z-index: 1;
@@ -82,7 +125,6 @@ body {
   line-height: 1.14;
   letter-spacing: -0.055em;
   color: var(--ink);
-  transform-style: preserve-3d;
 }
 
 .line {
@@ -121,7 +163,6 @@ body {
   gap: clamp(14px, 2.2vh, 30px);
   will-change: transform, opacity;
   pointer-events: auto;
-  transform-style: preserve-3d;
 }
 
 .hero-cta a {
@@ -165,7 +206,7 @@ body {
 
 .about {
   position: relative;
-  background: linear-gradient(180deg, #1e5c33 0%, #143f27 45%, #0c2719 100%);
+  background: transparent;
   padding: clamp(90px, 16vh, 170px) 24px clamp(100px, 18vh, 190px);
   text-align: center;
   transition: background 0.3s ease-out;
@@ -226,6 +267,123 @@ body {
   line-height: 1.55;
   font-weight: 500;
   color: rgba(255, 243, 203, 0.66);
+}
+
+/* ——— possibilities slider ——— */
+
+.possibilities {
+  position: relative;
+  background: transparent; /* matches bottom of .about gradient */
+  padding: clamp(60px, 10vh, 120px) 0 clamp(80px, 14vh, 160px);
+  overflow: hidden;
+}
+
+.possibilities-title {
+  padding-inline: 24px;
+  font-weight: 800;
+  font-size: clamp(40px, 8vw, 80px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--cream);
+  margin-bottom: clamp(32px, 5vh, 48px);
+}
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.slider-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  gap: 16px;
+  padding: 0 24px;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide-card {
+  flex: 0 0 calc(100vw - 48px);
+  max-width: 500px; /* narrowed slightly for better text wrapping */
+  min-height: 480px;
+  scroll-snap-align: center;
+  background: rgba(255, 255, 255, 0.08); /* slightly higher opacity for the glass */
+  border-radius: 28px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+  .slide-card {
+    padding: 40px;
+  }
+}
+
+.slide-logo {
+  font-size: clamp(32px, 9vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: var(--cream);
+  text-align: left;
+}
+
+.slide-text {
+  font-size: clamp(20px, 5.5vw, 24px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  color: var(--cream);
+  text-align: right;
+  align-self: flex-end;
+  max-width: 22ch;
+  opacity: 0.95;
+}
+
+.slide-media {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.slide-image-placeholder {
+  width: 90%;
+  aspect-ratio: 16/10;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  transform: rotate(-3deg);
+}
+
+.slider-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.slider-pagination .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 243, 203, 0.3);
+  transition: background 0.3s ease;
+}
+
+.slider-pagination .dot.active {
+  background: rgba(255, 243, 203, 0.9);
 }
 
 /* ——— footer ——— */

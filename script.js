@@ -1,4 +1,4 @@
-/* AITC — modern parallax hero & scrub reveal */
+/* AITC — modern parallax hero */
 (() => {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -16,29 +16,70 @@
   );
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
+  /* slider pagination */
+  const slides = document.querySelectorAll(".slide-card");
+  const dots = document.querySelectorAll(".slider-pagination .dot");
+  if (slides.length > 0 && dots.length > 0) {
+    const sliderIo = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Array.from(slides).indexOf(entry.target);
+            dots.forEach((dot, i) => {
+              dot.classList.toggle("active", i === index);
+            });
+          }
+        });
+      },
+      { root: document.querySelector(".slider-track"), threshold: 0.5 }
+    );
+    slides.forEach((slide) => sliderIo.observe(slide));
+  }
+
+
+  /* ambient background fade */
+  const sections = [
+    { el: document.querySelector(".hero"), bgClass: ".bg-hero" },
+    { el: document.querySelector(".possibilities"), bgClass: ".bg-possibilities" },
+    { el: document.querySelector(".about"), bgClass: ".bg-about" }
+  ];
+  
+  const bgLayers = document.querySelectorAll(".bg-layer");
+  
+  const bgObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const matchedSection = sections.find(s => s.el === entry.target);
+          if (matchedSection) {
+            bgLayers.forEach(layer => layer.classList.remove("active"));
+            const targetBg = document.querySelector(matchedSection.bgClass);
+            if (targetBg) targetBg.classList.add("active");
+          }
+        }
+      });
+    },
+    { threshold: 0.3 } // Fade when section is 30% visible
+  );
+  
+  sections.forEach(s => {
+    if (s.el) bgObserver.observe(s.el);
+  });
+
   if (reduced) return;
 
-  const hero = document.querySelector(".hero");
-  const bg = document.querySelector(".hero-bg");
-  const lines = [...document.querySelectorAll(".line")];
+    const lines = [...document.querySelectorAll(".line")];
   const ctaGroup = document.querySelector(".hero-cta");
-  const ctaMain = document.querySelector(".cta-main");
-  const ctaFade = document.querySelector(".cta-fade");
   const aboutSec = document.querySelector(".about");
-  const scrubWords = [...document.querySelectorAll(".scrub-word")];
 
   let scrollY = window.scrollY;
-  let px = 0; // pointer target, -1..1
+  let px = 0;
   let py = 0;
-  let cx = 0; // lerped pointer
+  let cx = 0;
   let cy = 0;
   let ticking = false;
-  let animatedOnce = false;
 
-  // Allow initial CSS entrance animation to run uninterrupted
-  setTimeout(() => {
-    animatedOnce = true;
-  }, 1000);
+  const isMobile = () => window.innerWidth < 768;
 
   const onScroll = () => {
     scrollY = window.scrollY;
@@ -46,8 +87,19 @@
   };
 
   const onPointer = (e) => {
-    px = (e.clientX / window.innerWidth) * 2 - 1;
-    py = (e.clientY / window.innerHeight) * 2 - 1;
+    if (e.pointerType === "touch") {
+      px = ((e.clientX / window.innerWidth) * 2 - 1) * 0.4;
+      py = ((e.clientY / window.innerHeight) * 2 - 1) * 0.4;
+    } else {
+      px = (e.clientX / window.innerWidth) * 2 - 1;
+      py = (e.clientY / window.innerHeight) * 2 - 1;
+    }
+    requestTick();
+  };
+
+  const resetPointer = () => {
+    px = 0;
+    py = 0;
     requestTick();
   };
 
@@ -61,82 +113,48 @@
   const update = () => {
     ticking = false;
     const vh = window.innerHeight;
+    const mobile = isMobile();
 
     // Smooth pointer lerp
-    cx += (px - cx) * 0.08;
-    cy += (py - cy) * 0.08;
+    const lerpFactor = mobile ? 0.12 : 0.08;
+    cx += (px - cx) * lerpFactor;
+    cy += (py - cy) * lerpFactor;
 
-    /* 1. Hero Parallax & 3D Tilt */
+    /* 1. Hero Parallax */
     if (scrollY <= vh * 1.3) {
-      // Gentle 3D poster rotation from pointer
-      const rotX = (-cy * 2.8).toFixed(2);
-      const rotY = (cx * 3.8).toFixed(2);
-
-      if (hero) {
-        hero.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-      }
-
-      // Background drift
-      if (bg) {
-        bg.style.transform = `translate3d(${(cx * -15).toFixed(2)}px, ${(scrollY * 0.14 + cy * -10).toFixed(2)}px, -30px) scale(1.08)`;
-      }
-
-      // Apply line transforms after initial entrance
-      if (scrollY > 0 || animatedOnce) {
+      // Parallax shifts only activate when scrolling or moving pointer (no position jump on load)
+      if (scrollY > 0 || Math.abs(cx) > 0.005 || Math.abs(cy) > 0.005) {
         lines.forEach((line, i) => {
           const depth = (i + 1) / lines.length;
-          const lift = -scrollY * (0.09 + i * 0.08);
-          // Alternate horizontal drift: odd lines left, even lines right
-          const sideDrift = (i % 2 === 0 ? -1 : 1) * scrollY * 0.038;
-          const mx = cx * 12 * depth;
-          const my = cy * 8 * depth;
-          const scale = Math.max(0.85, (1 - scrollY * 0.00035).toFixed(4));
-          const fade = Math.max(0, 1 - scrollY / (vh * 0.78));
+          const liftRate = mobile ? 0.07 + i * 0.05 : 0.09 + i * 0.08;
+          const lift = -scrollY * liftRate;
+          const driftCoeff = mobile ? 0.015 : 0.038;
+          const sideDrift = (i % 2 === 0 ? -1 : 1) * scrollY * driftCoeff;
+          const mx = cx * (mobile ? 5 : 12) * depth;
+          const my = cy * (mobile ? 4 : 8) * depth;
+          const scale = Math.max(0.88, (1 - scrollY * (mobile ? 0.0002 : 0.00035)).toFixed(4));
+          const fade = Math.max(0, 1 - scrollY / (vh * (mobile ? 0.7 : 0.78)));
 
-          line.style.transform = `translate3d(${(mx + sideDrift).toFixed(2)}px, ${(lift + my).toFixed(2)}px, ${i * 8}px) scale(${scale})`;
+          line.style.transform = `translate3d(${(mx + sideDrift).toFixed(2)}px, ${(lift + my).toFixed(2)}px, 0) scale(${scale})`;
           line.style.opacity = fade.toFixed(3);
         });
 
-        // Opposing CTA velocity & floating depth
         if (ctaGroup) {
-          const baseLift = -scrollY * 0.22;
-          const fade = Math.max(0, 1 - scrollY / (vh * 0.72));
+          const baseLift = -scrollY * (mobile ? 0.16 : 0.22);
+          const mx = cx * (mobile ? 6 : 14);
+          const my = cy * (mobile ? 4 : 8);
+          const fade = Math.max(0, 1 - scrollY / (vh * (mobile ? 0.68 : 0.72)));
           ctaGroup.style.opacity = fade.toFixed(3);
-          ctaGroup.style.transform = `translate3d(${(cx * 14).toFixed(2)}px, ${(baseLift + cy * 8).toFixed(2)}px, 40px)`;
-        }
-
-        if (ctaMain) {
-          const mainLift = -scrollY * 0.06;
-          ctaMain.style.transform = `translate3d(0, ${mainLift.toFixed(2)}px, 15px)`;
-        }
-
-        if (ctaFade) {
-          const fadeLift = scrollY * 0.04;
-          ctaFade.style.transform = `translate3d(0, ${fadeLift.toFixed(2)}px, 5px)`;
+          ctaGroup.style.transform = `translate3d(${mx.toFixed(2)}px, ${(baseLift + my).toFixed(2)}px, 0)`;
         }
       }
     }
 
-    /* 2. Depth Shift in #about */
-    if (aboutSec) {
-      const rect = aboutSec.getBoundingClientRect();
-      const viewCenter = vh * 0.6;
-      const progress = Math.max(0, Math.min(1, (viewCenter - rect.top) / rect.height));
-
-      // Deep obsidian green background shift
-      if (progress > 0) {
-        aboutSec.style.background = `linear-gradient(180deg, #1e5c33 0%, #103822 ${(progress * 45).toFixed(1)}%, #07190e 100%)`;
-      }
-    }
-  };
+      };
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("pointermove", onPointer, { passive: true });
-  if (hero) {
-    hero.addEventListener("pointerleave", () => {
-      px = 0;
-      py = 0;
-      requestTick();
-    });
-  }
+  window.addEventListener("pointercancel", resetPointer, { passive: true });
+  window.addEventListener("touchend", resetPointer, { passive: true });
+  window.addEventListener("resize", requestTick, { passive: true });
 })();
