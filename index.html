@@ -18,9 +18,12 @@
   </head>
   <body>
     <div class="page-background" aria-hidden="true">
-      <span class="background-scene background-scene-cream"></span>
-      <span class="background-scene background-scene-sage"></span>
-      <span class="background-scene background-scene-forest"></span>
+      <span class="background-scene background-scene-hero"></span>
+      <span class="background-scene background-scene-projects"></span>
+      <span class="background-scene background-scene-turn"></span>
+      <span class="background-scene background-scene-program"></span>
+      <span class="background-scene background-scene-experience"></span>
+      <span class="background-scene background-scene-spotlight"></span>
       <span class="background-scene background-scene-deep"></span>
     </div>
 
@@ -30,7 +33,9 @@
       <a class="site-brand" href="#top">aitc</a>
       <div class="site-nav-links">
         <a href="#projects" data-nav-link>projects</a>
-        <a href="#program" data-nav-link>program</a>
+        <a href="#turn" data-nav-link>build</a>
+        <a href="#program" data-nav-link>path</a>
+        <a href="#matterhub-spotlight" data-nav-link>matterhub</a>
         <a class="nav-join" href="#join" data-nav-link>join</a>
       </div>
     </nav>
@@ -43,9 +48,8 @@
       <h1 class="hero-title">
         <span class="hero-line hero-line-main" style="--line-index: 0">build</span>
         <span class="hero-line hero-line-main" style="--line-index: 1">with ai.</span>
-        <span class="hero-line hero-line-sub" style="--line-index: 2">create</span>
-        <span class="hero-line hero-line-sub" style="--line-index: 3">whats</span>
-        <span class="hero-line hero-line-sub" style="--line-index: 4">next.</span>
+        <span class="hero-line hero-line-sub" style="--line-index: 2">what's</span>
+        <span class="hero-line hero-line-sub" style="--line-index: 3">next.</span>
       </h1>
       <div class="hero-bottom">
         <div class="hero-logo" aria-label="aitc logo"></div>
@@ -57,7 +61,7 @@
     </header>
 
     <main id="main">
-      <section class="projects section-dark" id="projects" data-chrome="#8dad82" data-scene="projects">
+      <section class="projects section-dark" id="projects" data-chrome="#174b2a" data-scene="projects">
         <div class="projects-intro page-width reveal">
           <p class="section-whisper">start here</p>
           <h2>what's even<br />possible?</h2>
@@ -118,32 +122,21 @@
         </div>
       </section>
 
-      <section class="project-turn section-dark reveal" data-chrome="#216434" data-scene="forest" aria-labelledby="turn-title">
-        <div class="turn-orbit" aria-hidden="true"></div>
+      <!-- The Emotional Pivot ("The Turn") -->
+      <section class="project-turn section-dark reveal" id="turn" data-chrome="#0c2719" data-scene="turn" aria-labelledby="turn-title">
+        <div class="turn-aurora" aria-hidden="true"></div>
         <div class="turn-content page-width">
-          <p class="section-whisper">now it is your turn</p>
-          <h2 id="turn-title">so what will<br />you build?</h2>
-          <div class="turn-copy">
-            <p>you don't need experience.</p>
-            <p>you don't need the perfect idea.</p>
-            <p>start with something you want to make.</p>
+          <p class="section-whisper turn-whisper">we built these.</p>
+          <h2 id="turn-title" class="turn-big-title">what will<br />you build?</h2>
+          <p class="turn-sub">start with an idea. we'll help you make it real.</p>
+          <div class="turn-filament" aria-hidden="true">
+            <span class="filament-beam"></span>
+            <span class="filament-arc"></span>
           </div>
         </div>
       </section>
 
-      <section class="word-sequence section-dark" data-chrome="#216434" data-scene="forest" aria-labelledby="sequence-title">
-        <div class="page-width">
-          <h2 class="sr-only" id="sequence-title">learn, build, compete, pitch</h2>
-          <div class="kinetic-words" aria-hidden="true">
-            <span class="kinetic-word kinetic-learn reveal">learn</span>
-            <span class="kinetic-word kinetic-build reveal">build</span>
-            <span class="kinetic-word kinetic-compete reveal">compete</span>
-            <span class="kinetic-word kinetic-pitch reveal">pitch</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="beginner section-dark" id="beginners" data-chrome="#0c2719" data-scene="deep" aria-labelledby="beginner-title">
+      <section class="beginner section-dark" id="beginners" data-chrome="#0c2719" data-scene="program" aria-labelledby="beginner-title">
         <div class="beginner-mark" aria-hidden="true">?</div>
         <div class="beginner-grid page-width reveal">
           <div class="beginner-headline">
@@ -158,7 +151,7 @@
         </div>
       </section>
 
-      <section class="program section-dark" id="program" data-chrome="#0c2719" data-scene="deep" aria-labelledby="program-title">
+      <section class="program section-dark" id="program" data-chrome="#0c2719" data-scene="program" aria-labelledby="program-title">
         <div class="program-intro page-width reveal">
           <p class="section-whisper">the path</p>
           <h2 id="program-title">how aitc works</h2>
@@ -207,7 +200,7 @@
         </div>
       </section>
 
-      <section class="experience section-dark" id="experience" data-chrome="#0c2719" data-scene="deep" aria-labelledby="experience-title">
+      <section class="experience section-dark" id="experience" data-chrome="#174b2a" data-scene="experience" aria-labelledby="experience-title">
         <div class="experience-grid page-width reveal">
           <div class="experience-intro">
             <p class="section-whisper">inside the club</p>
@@ -234,7 +227,36 @@
         </div>
       </section>
 
-      <section class="board section-dark" id="board" data-chrome="#0c2719" data-scene="deep" aria-labelledby="board-title">
+      <!-- MatterHub Interactive Hardware Prototype Case Study -->
+      <section class="case-study section-dark reveal" id="matterhub-spotlight" data-chrome="#0c2719" data-scene="spotlight" aria-labelledby="case-study-title">
+        <div class="case-study-content page-width">
+          <div class="case-study-heading">
+            <span class="prototype-badge">best prototype · 2026</span>
+            <h2 id="case-study-title">matterhub</h2>
+            <p class="case-study-tagline">home, made simpler.</p>
+          </div>
+
+          <div class="exploded-device-wrapper" aria-hidden="true">
+            <div class="exploded-chassis-top"></div>
+            <div class="exploded-diffuser">
+              <span class="exploded-orb"></span>
+              <span class="exploded-ring"></span>
+            </div>
+            <div class="exploded-pcb">
+              <span class="pcb-chip"></span>
+              <span class="pcb-traces"></span>
+            </div>
+            <div class="exploded-chassis-bottom"></div>
+          </div>
+
+          <div class="case-study-footer">
+            <p class="case-study-narrative">built from scratch by student founders. hardware, firmware, interface.</p>
+            <p class="case-study-booth-note">the live working prototype is right at our table.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="board section-dark" id="board" data-chrome="#0c2719" data-scene="spotlight" aria-labelledby="board-title">
         <div class="board-heading page-width reveal">
           <p class="section-whisper">the people</p>
           <h2 id="board-title">built by students.<br />for students who want to build.</h2>
