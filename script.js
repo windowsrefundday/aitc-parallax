@@ -269,6 +269,36 @@
     });
   });
 
+  // Experience segmented control dynamic scroll edge mask
+  const choicesTrack = document.querySelector(".experience-choices");
+  if (choicesTrack) {
+    const updateChoiceMask = () => {
+      const scrollLeft = choicesTrack.scrollLeft;
+      const scrollWidth = choicesTrack.scrollWidth;
+      const clientWidth = choicesTrack.clientWidth;
+      const maxScroll = scrollWidth - clientWidth;
+
+      if (maxScroll <= 2) {
+        choicesTrack.style.setProperty("--mask-left", "0px");
+        choicesTrack.style.setProperty("--mask-right", "0px");
+        return;
+      }
+
+      const canScrollLeft = scrollLeft > 6;
+      const canScrollRight = scrollLeft < maxScroll - 6;
+
+      const leftFade = canScrollLeft ? "32px" : "0px";
+      const rightFade = canScrollRight ? "32px" : "0px";
+
+      choicesTrack.style.setProperty("--mask-left", leftFade);
+      choicesTrack.style.setProperty("--mask-right", rightFade);
+    };
+
+    choicesTrack.addEventListener("scroll", updateChoiceMask, { passive: true });
+    window.addEventListener("resize", updateChoiceMask, { passive: true });
+    requestAnimationFrame(updateChoiceMask);
+  }
+
   // Question Mark Diagonal Parallax (Bottom-Left to Top-Right)
   const beginnerSection = document.querySelector("#beginners");
   const beginnerMark = document.querySelector(".beginner-mark");

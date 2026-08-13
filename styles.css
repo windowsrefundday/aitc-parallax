@@ -1086,6 +1086,20 @@ main,
   max-width: 100%;
 }
 
+.experience-choices-dock {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  background: rgba(255, 243, 203, 0.07);
+  border: 1px solid rgba(255, 243, 203, 0.15);
+  border-radius: 999px;
+  backdrop-filter: blur(14px);
+  padding: 0.35rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
 .experience-choices {
   display: flex;
   flex-direction: row;
@@ -1098,12 +1112,26 @@ main,
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  padding: 0.35rem;
-  background: rgba(255, 243, 203, 0.07);
-  border: 1px solid rgba(255, 243, 203, 0.15);
-  border-radius: 999px;
-  backdrop-filter: blur(14px);
   box-sizing: border-box;
+  padding: 0 0.15rem;
+
+  /* Dynamic scroll-aware edge fade mask */
+  --mask-left: 0px;
+  --mask-right: 0px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0px,
+    black var(--mask-left, 0px),
+    black calc(100% - var(--mask-right, 0px)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0px,
+    black var(--mask-left, 0px),
+    black calc(100% - var(--mask-right, 0px)),
+    transparent 100%
+  );
 }
 
 .experience-choices::-webkit-scrollbar {
@@ -1855,27 +1883,14 @@ main,
     min-width: 0;
   }
 
-  .experience-choices {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.45rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    padding: 0.35rem;
-    background: rgba(255, 243, 203, 0.07);
-    border: 1px solid rgba(255, 243, 203, 0.15);
-    border-radius: 999px;
-    backdrop-filter: blur(14px);
+  .experience-choices-dock {
     width: 100%;
     min-width: 0;
-    box-sizing: border-box;
+    padding: 0.35rem;
   }
 
-  .experience-choices::-webkit-scrollbar {
-    display: none;
+  .experience-choices {
+    gap: 0.45rem;
   }
 
   .experience-choice {
