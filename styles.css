@@ -115,10 +115,10 @@ body {
   position: relative;
   z-index: 1;
   width: 100%;
-  margin-top: clamp(16px, 4vh, 48px);
+  margin-top: clamp(12px, 3vh, 40px);
   text-align: left;
   font-weight: 800;
-  font-size: clamp(34px, min(12vw, 7vh), 60px);
+  font-size: clamp(46px, min(16vw, 9.5vh), 76px);
   line-height: 1.02;
   letter-spacing: -0.055em;
   color: var(--ink);
@@ -126,7 +126,7 @@ body {
 
 @media (min-width: 768px) {
   .hero-title {
-    font-size: clamp(54px, min(18vw, 11vh), 160px);
+    font-size: clamp(64px, min(19vw, 12vh), 160px);
     margin-top: clamp(24px, 5vh, 60px);
     line-height: 1.05;
   }
@@ -193,7 +193,7 @@ body {
   display: block;
   font-family: var(--font);
   font-weight: 800;
-  font-size: clamp(20px, min(5.5vw, 4vh), 56px);
+  font-size: clamp(24px, min(6.5vw, 4.5vh), 56px);
   line-height: 1.03;
   letter-spacing: -0.055em;
   text-align: right;
@@ -204,6 +204,7 @@ body {
 }
 
 .hero-cta .cta-main {
+  font-size: clamp(32px, min(8.5vw, 5.5vh), 64px);
   color: var(--cream);
   text-shadow:
     0 4px 16px rgba(10, 38, 20, 0.4),
@@ -212,6 +213,7 @@ body {
 }
 
 .hero-cta .cta-fade {
+  font-size: clamp(22px, min(6vw, 4vh), 48px);
   color: rgba(255, 243, 203, 0.48);
   text-shadow:
     0 4px 16px rgba(10, 38, 20, 0.3),
